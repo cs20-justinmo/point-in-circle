@@ -10,21 +10,29 @@ cnv.height = 400;
 let mouseX;
 let mouseY;
 
-let blackCircle = {
-  x: Math.random() * cnv.width,
-  y: Math.random() * cnv.height,
-  r: Math.random() * 50 + 10,
-};
+let blackCircle = {};
+newRandomCircle();
 
 // Call draw function once all page resources have loaded
 window.addEventListener("load", draw);
 
 function draw() {
-  // LOGIC - test if mouse in circles
-
-  // DRAW - draw circles
+  // bg
   ctx.clearRect(0, 0, cnv.width, cnv.height);
 
+  // LOGIC - test if mouse in circles
+  if (ptInCircle(mouseX, mouseY, blackCircle.x, blackCircle.y, blackCircle.r)) {
+    document.body.style.backgroundColor = "white";
+    newRandomCircle();
+  } else if (ptInCircle(mouseX, mouseY, 150, 150, 100)) {
+    document.body.style.backgroundColor = "red";
+  } else if (ptInCircle(mouseX, mouseY, 475, 125, 60)) {
+    document.body.style.backgroundColor = "green";
+  } else if (ptInCircle(mouseX, mouseY, 350, 275, 40)) {
+    document.body.style.backgroundColor = "blue";
+  }
+
+  // draw circles
   ctx.fillStyle = "red";
   fillCircle(150, 150, 100);
 
@@ -58,4 +66,15 @@ function fillCircle(x, y, r) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   ctx.fill();
+}
+
+function ptInCircle(x1, y1, x, y, r) {
+  // Similar to the triangle perimeter assignment, this calculates the distance between the mouse and the center of a circle
+  if (Math.sqrt((x1 - x) ** 2 + (y1 - y) ** 2) < r) return true;
+}
+
+function newRandomCircle() {
+  blackCircle.x = Math.random() * cnv.width;
+  blackCircle.y = Math.random() * cnv.height;
+  blackCircle.r = Math.random() * 50 + 10;
 }
